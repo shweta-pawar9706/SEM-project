@@ -4,6 +4,7 @@ import os
 import resume_parser
 import scorer
 import ats
+import skillgap
 
 app = Flask(__name__)
 CORS(app)
@@ -21,18 +22,13 @@ def home():
 def upload_resume():
     if "resume" not in request.files:
         return jsonify({"error": "No file uploaded"}), 400
-
     file = request.files["resume"]
-
     if file.filename == "":
         return jsonify({"error": "No file selected"}), 400
-
     filepath = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(filepath)
-
     parsed_data = resume_parser.parse_resume(filepath)
     score_data  = scorer.score_resume(parsed_data)
-
     return jsonify({
         "message": "Resume uploaded successfully",
         "data":    parsed_data,
@@ -44,6 +40,13 @@ def upload_resume():
 def ats_check():
     data   = request.json
     result = ats.check_ats(data)
+    return jsonify(result)
+
+
+@app.route("/skillgap", methods=["POST"])
+def skill_gap():
+    data   = request.json
+    result = skillgap.analyze_skill_gap(data)
     return jsonify(result)
 
 
