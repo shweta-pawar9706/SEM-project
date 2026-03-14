@@ -1,0 +1,62 @@
+{
+    "Web Developer": {
+        "icon": "fa-globe",
+        "color": "primary",
+        "description": "Builds and maintains websites and web applications.",
+        "skills": ["html", "css", "javascript", "react", "nodejs", "git", "responsive web design", "rest api"]
+    },
+    "Full Stack Developer": {
+        "icon": "fa-layer-group",
+        "color": "success",
+        "description": "Works on both frontend and backend of web applications.",
+        "skills": ["html", "css", "javascript", "react", "nodejs", "express", "mongodb", "sql", "git", "docker"]
+    },
+    "Data Scientist": {
+        "icon": "fa-chart-line",
+        "color": "warning",
+        "description": "Analyzes data to extract insights and build predictive models.",
+        "skills": ["python", "pandas", "numpy", "machine learning", "deep learning", "sql", "matplotlib", "tensorflow"]
+    },
+    "Data Analyst": {
+        "icon": "fa-magnifying-glass-chart",
+        "color": "info",
+        "description": "Interprets data and creates reports to support business decisions.",
+        "skills": ["python", "sql", "excel", "tableau", "pandas", "numpy", "matplotlib", "power bi"]
+    },
+    "Machine Learning Engineer": {
+        "icon": "fa-robot",
+        "color": "danger",
+        "description": "Designs and deploys machine learning models into production.",
+        "skills": ["python", "machine learning", "deep learning", "tensorflow", "pytorch", "scikit-learn", "docker", "aws"]
+    },
+    "UI/UX Designer": {
+        "icon": "fa-pen-ruler",
+        "color": "purple",
+        "description": "Designs user interfaces and experiences for digital products.",
+        "skills": ["figma", "ui design", "ux design", "css", "html", "project management", "communication"]
+    },
+    "Backend Developer": {
+        "icon": "fa-server",
+        "color": "secondary",
+        "description": "Builds server side logic, databases and APIs.",
+        "skills": ["python", "nodejs", "express", "sql", "mongodb", "docker", "git", "rest api", "aws"]
+    },
+    "DevOps Engineer": {
+        "icon": "fa-gears",
+        "color": "dark",
+        "description": "Manages infrastructure, deployment pipelines and cloud services.",
+        "skills": ["docker", "kubernetes", "aws", "linux", "git", "jenkins", "ci/cd", "python"]
+    },
+    "Android Developer": {
+        "icon": "fa-mobile-screen",
+        "color": "success",
+        "description": "Builds mobile applications for Android devices.",
+        "skills": ["java", "kotlin", "android studio", "git", "sql", "rest api"]
+    },
+    "Project Manager": {
+        "icon": "fa-list-check",
+        "color": "primary",
+        "description": "Plans, executes and oversees technology projects.",
+        "skills": ["project management", "communication", "leadership", "teamwork", "jira", "critical thinking"]
+    }
+}

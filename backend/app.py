@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+import json
 import resume_parser
 import scorer
 import ats
 import skillgap
-import json
+import matcher
 
 app = Flask(__name__)
 CORS(app)
@@ -50,11 +51,20 @@ def skill_gap():
     result = skillgap.analyze_skill_gap(data)
     return jsonify(result)
 
+
+@app.route("/match", methods=["POST"])
+def match_roles():
+    data   = request.json
+    result = matcher.match_job_roles(data)
+    return jsonify(result)
+
+
 @app.route("/courses", methods=["GET"])
 def get_courses():
     with open("data/courses.json", "r") as f:
         courses = json.load(f)
     return jsonify(courses)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
