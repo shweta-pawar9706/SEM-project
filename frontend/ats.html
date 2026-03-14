@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Checker - Resume Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+        <a class="navbar-brand fw-bold" href="index.html">
+            <i class="fa-solid fa-file-circle-check me-2"></i>Resume Analyzer
+        </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link active" href="ats.html">ATS Checker</a></li>
+                <li class="nav-item"><a class="nav-link" href="skillgap.html">Skill Gap</a></li>
+                <li class="nav-item"><a class="nav-link" href="courses.html">Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="matcher.html">Job Matcher</a></li>
+                <li class="nav-item"><a class="nav-link" href="improver.html">Improver</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="container py-5">
+
+        <h2 class="fw-bold mb-2">
+            <i class="fa-solid fa-robot me-2 text-primary"></i>ATS Resume Checker
+        </h2>
+        <p class="text-muted mb-5">
+            Check how well your resume matches a job description
+            and see your ATS compatibility score.
+        </p>
+
+        <!-- Input Row -->
+        <div class="row g-4 mb-4">
+
+            <!-- Job Description Input -->
+            <div class="col-md-8">
+                <div class="card shadow-sm p-4">
+                    <h5 class="fw-bold mb-3">
+                        <i class="fa-solid fa-paste me-2 text-primary"></i>
+                        Paste Job Description
+                    </h5>
+                    <textarea
+                        id="jd-input"
+                        class="form-control"
+                        rows="10"
+                        placeholder="Paste the job description here...">
+                    </textarea>
+
+                    <!-- Preloaded JD Buttons -->
+                    <div class="mt-3">
+                        <p class="text-muted small mb-2">Or try a sample job description:</p>
+                        <button class="btn btn-outline-secondary btn-sm me-2 mb-2" onclick="loadSampleJD('webdev')">Web Developer</button>
+                        <button class="btn btn-outline-secondary btn-sm me-2 mb-2" onclick="loadSampleJD('datascience')">Data Scientist</button>
+                        <button class="btn btn-outline-secondary btn-sm me-2 mb-2" onclick="loadSampleJD('fullstack')">Full Stack Developer</button>
+                    </div>
+
+                    <button class="btn btn-primary btn-lg mt-3 w-100" onclick="checkATS()">
+                        <i class="fa-solid fa-magnifying-glass me-2"></i>Check ATS Score
+                    </button>
+                </div>
+            </div>
+
+            <!-- Resume Preview -->
+            <div class="col-md-4">
+                <div class="card shadow-sm p-4 h-100">
+                    <h5 class="fw-bold mb-3">
+                        <i class="fa-solid fa-user me-2 text-success"></i>
+                        Your Resume
+                    </h5>
+                    <div id="resume-preview">
+                        <p class="text-muted">Loading resume data...</p>
+                    </div>
+                    <a href="index.html" class="btn btn-outline-primary btn-sm mt-3">
+                        <i class="fa-solid fa-upload me-2"></i>Upload Different Resume
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="text-center my-4 d-none">
+            <div class="spinner-border text-primary"></div>
+            <p class="mt-2 text-muted">Analyzing your resume against job description...</p>
+        </div>
+
+        <!-- Results Section (hidden until checked) -->
+        <div id="results-section" class="d-none">
+
+            <!-- Score Row -->
+            <div class="row g-4 mb-4">
+
+                <!-- ATS Score -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm p-4 text-center">
+                        <h5 class="fw-bold mb-3">ATS Score</h5>
+                        <div class="score-circle mx-auto mb-3" id="ats-score-circle">
+                            <span id="ats-score-number">0</span>
+                            <small>/100</small>
+                        </div>
+                        <span class="badge fs-6" id="ats-grade">Loading...</span>
+                    </div>
+                </div>
+
+                <!-- Score Breakdown -->
+                <div class="col-md-8">
+                    <div class="card shadow-sm p-4">
+                        <h5 class="fw-bold mb-3">
+                            <i class="fa-solid fa-chart-bar me-2 text-primary"></i>
+                            Score Breakdown
+                        </h5>
+                        <canvas id="atsBreakdownChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Keywords Row -->
+            <div class="row g-4 mb-4">
+
+                <!-- Matched Keywords -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm p-4">
+                        <h5 class="fw-bold mb-3">
+                            <i class="fa-solid fa-circle-check me-2 text-success"></i>
+                            Matched Keywords
+                        </h5>
+                        <div id="matched-keywords"></div>
+                    </div>
+                </div>
+
+                <!-- Missing Keywords -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm p-4">
+                        <h5 class="fw-bold mb-3">
+                            <i class="fa-solid fa-circle-xmark me-2 text-danger"></i>
+                            Missing Keywords
+                        </h5>
+                        <div id="missing-keywords"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card shadow-sm p-4">
+                        <h5 class="fw-bold mb-3">
+                            <i class="fa-solid fa-lightbulb me-2 text-warning"></i>
+                            Tips to Improve Your ATS Score
+                        </h5>
+                        <ul class="list-group list-group-flush" id="ats-tips"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Step -->
+            <div class="text-center">
+                <a href="skillgap.html" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-magnifying-glass-chart me-2"></i>
+                    Next — Check Skill Gap
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p class="mb-0">© 2024 Resume Analyzer | SEM Project</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    // Sample Job Descriptions
+    const sampleJDs = {
+        webdev: `We are looking for a Web Developer with experience in HTML, CSS, JavaScript and React.
+The candidate should have experience with Node.js, Express and MongoDB.
+Knowledge of Git, responsive design and REST APIs is required.
+Good communication and teamwork skills are essential.
+Experience with deployment on AWS or similar cloud platforms is a plus.`,
+
+        datascience: `We are hiring a Data Scientist with strong skills in Python, pandas, numpy and scikit-learn.
+Experience with machine learning, deep learning and data analysis is required.
+Knowledge of TensorFlow or PyTorch is a plus.
+The candidate should be familiar with SQL and data visualization using matplotlib or tableau.
+Strong problem solving and communication skills required.`,
+
+        fullstack: `Looking for a Full Stack Developer proficient in React, Node.js and MongoDB.
+Must have experience with HTML, CSS, JavaScript and REST APIs.
+Knowledge of Git, Docker and AWS is preferred.
+Experience with agile development, project management and teamwork is essential.
+Python knowledge is a plus.`
+    };
+
+    // Load resume preview from localStorage
+    const resumeData = JSON.parse(localStorage.getItem("resumeData"));
+    if (resumeData && !resumeData.error) {
+        document.getElementById("resume-preview").innerHTML = `
+            <p><strong>Name:</strong> ${resumeData.name}</p>
+            <p><strong>Email:</strong> ${resumeData.email}</p>
+            <p><strong>Skills:</strong> ${(resumeData.skills || []).join(", ") || "None detected"}</p>
+        `;
+    } else {
+        document.getElementById("resume-preview").innerHTML =
+            '<p class="text-danger">No resume found. Please upload your resume first.</p>';
+    }
+
+    // Load sample JD
+    function loadSampleJD(type) {
+        document.getElementById("jd-input").value = sampleJDs[type];
+    }
+
+    // Chart instance
+    let atsChart = null;
+
+    // Check ATS Score
+    async function checkATS() {
+        const jd = document.getElementById("jd-input").value.trim();
+
+        if (!jd) {
+            alert("Please paste a job description first.");
+            return;
+        }
+
+        if (!resumeData || resumeData.error) {
+            alert("No resume found. Please upload your resume first.");
+            window.location.href = "index.html";
+            return;
+        }
+
+        // Show loading
+        document.getElementById("loading").classList.remove("d-none");
+        document.getElementById("results-section").classList.add("d-none");
+
+        try {
+            const response = await fetch("http://127.0.0.1:5000/ats", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    resume_text:     resumeData.raw_text,
+                    job_description: jd
+                })
+            });
+
+            const result = await response.json();
+
+            // Save ATS result for other pages
+            localStorage.setItem("atsData", JSON.stringify(result));
+            localStorage.setItem("jdText",  jd);
+
+            displayResults(result);
+
+        } catch (error) {
+            alert("Cannot connect to server. Make sure Flask is running.");
+            console.error(error);
+        } finally {
+            document.getElementById("loading").classList.add("d-none");
+        }
+    }
+
+    // Display Results
+    function displayResults(result) {
+        document.getElementById("results-section").classList.remove("d-none");
+
+        // Score
+        document.getElementById("ats-score-number").textContent = result.ats_score;
+        const gradeEl = document.getElementById("ats-grade");
+        gradeEl.textContent = result.grade.label;
+        gradeEl.className   = "badge fs-6 bg-" + result.grade.color;
+
+        const circle = document.getElementById("ats-score-circle");
+        circle.className = "score-circle mx-auto mb-3 score-" + result.grade.color;
+
+        // Matched Keywords
+        const matchedDiv = document.getElementById("matched-keywords");
+        matchedDiv.innerHTML = "";
+        if (result.matched_keywords.length > 0) {
+            result.matched_keywords.forEach(kw => {
+                matchedDiv.innerHTML +=
+                    `<span class="badge bg-success me-2 mb-2 p-2">${kw}</span>`;
+            });
+        } else {
+            matchedDiv.innerHTML = "<p class='text-muted'>No matching keywords found</p>";
+        }
+
+        // Missing Keywords
+        const missingDiv = document.getElementById("missing-keywords");
+        missingDiv.innerHTML = "";
+        if (result.missing_keywords.length > 0) {
+            result.missing_keywords.forEach(kw => {
+                missingDiv.innerHTML +=
+                    `<span class="badge bg-danger me-2 mb-2 p-2">${kw}</span>`;
+            });
+        } else {
+            missingDiv.innerHTML = "<p class='text-success'>Great! No missing keywords.</p>";
+        }
+
+        // Tips
+        const tipsList = document.getElementById("ats-tips");
+        tipsList.innerHTML = "";
+        if (result.tips.length === 0) {
+            tipsList.innerHTML =
+                '<li class="list-group-item text-success">Your resume looks great for this job!</li>';
+        } else {
+            result.tips.forEach(tip => {
+                tipsList.innerHTML += `
+                    <li class="list-group-item">
+                        <i class="fa-solid fa-circle-exclamation text-warning me-2"></i>${tip}
+                    </li>`;
+            });
+        }
+
+        // Chart
+        if (atsChart) atsChart.destroy();
+        atsChart = new Chart(document.getElementById("atsBreakdownChart"), {
+            type: "bar",
+            data: {
+                labels: Object.keys(result.breakdown),
+                datasets: [{
+                    label: "Score",
+                    data:  Object.values(result.breakdown),
+                    backgroundColor: ["#0d6efd","#198754","#ffc107","#dc3545","#0dcaf0"],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales:  { y: { beginAtZero: true, max: 40 } }
+            }
+        });
+
+        // Scroll to results
+        document.getElementById("results-section").scrollIntoView({ behavior: "smooth" });
+    }
+    </script>
+
+</body>
+</html>

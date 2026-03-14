@@ -3,6 +3,7 @@ from flask_cors import CORS
 import os
 import resume_parser
 import scorer
+import ats
 
 app = Flask(__name__)
 CORS(app)
@@ -30,13 +31,20 @@ def upload_resume():
     file.save(filepath)
 
     parsed_data = resume_parser.parse_resume(filepath)
-    score_data = scorer.score_resume(parsed_data)
+    score_data  = scorer.score_resume(parsed_data)
 
     return jsonify({
         "message": "Resume uploaded successfully",
-        "data": parsed_data,
-        "score": score_data
+        "data":    parsed_data,
+        "score":   score_data
     })
+
+
+@app.route("/ats", methods=["POST"])
+def ats_check():
+    data   = request.json
+    result = ats.check_ats(data)
+    return jsonify(result)
 
 
 if __name__ == "__main__":
