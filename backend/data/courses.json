@@ -1,0 +1,234 @@
+{
+    "python": [
+        {
+            "title": "Python for Everybody",
+            "platform": "Coursera",
+            "level": "Beginner",
+            "duration": "8 weeks",
+            "link": "https://www.coursera.org/specializations/python"
+        },
+        {
+            "title": "Python Bootcamp",
+            "platform": "YouTube - freeCodeCamp",
+            "level": "Beginner",
+            "duration": "4 hours",
+            "link": "https://www.youtube.com/watch?v=rfscVS0vtbw"
+        }
+    ],
+    "javascript": [
+        {
+            "title": "JavaScript Algorithms and Data Structures",
+            "platform": "freeCodeCamp",
+            "level": "Beginner",
+            "duration": "300 hours",
+            "link": "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures"
+        },
+        {
+            "title": "JavaScript Full Course",
+            "platform": "YouTube - Bro Code",
+            "level": "Beginner",
+            "duration": "8 hours",
+            "link": "https://www.youtube.com/watch?v=8dWL3wF_OMw"
+        }
+    ],
+    "react": [
+        {
+            "title": "React JS Full Course",
+            "platform": "YouTube - freeCodeCamp",
+            "level": "Intermediate",
+            "duration": "10 hours",
+            "link": "https://www.youtube.com/watch?v=bMknfKXIFA8"
+        },
+        {
+            "title": "React Basics",
+            "platform": "Coursera - Meta",
+            "level": "Beginner",
+            "duration": "4 weeks",
+            "link": "https://www.coursera.org/learn/react-basics"
+        }
+    ],
+    "nodejs": [
+        {
+            "title": "Node.js Full Course",
+            "platform": "YouTube - freeCodeCamp",
+            "level": "Intermediate",
+            "duration": "8 hours",
+            "link": "https://www.youtube.com/watch?v=Oe421EPjeBE"
+        },
+        {
+            "title": "Node.js Developer Course",
+            "platform": "Udemy",
+            "level": "Intermediate",
+            "duration": "35 hours",
+            "link": "https://www.udemy.com/course/the-complete-nodejs-developer-course-2"
+        }
+    ],
+    "mongodb": [
+        {
+            "title": "MongoDB Crash Course",
+            "platform": "YouTube - Traversy Media",
+            "level": "Beginner",
+            "duration": "2 hours",
+            "link": "https://www.youtube.com/watch?v=-56x56UppqQ"
+        },
+        {
+            "title": "MongoDB Basics",
+            "platform": "MongoDB University",
+            "level": "Beginner",
+            "duration": "3 weeks",
+            "link": "https://learn.mongodb.com"
+        }
+    ],
+    "sql": [
+        {
+            "title": "SQL for Beginners",
+            "platform": "YouTube - freeCodeCamp",
+            "level": "Beginner",
+            "duration": "4 hours",
+            "link": "https://www.youtube.com/watch?v=HXV3zeQKqGY"
+        },
+        {
+            "title": "SQL and Databases",
+            "platform": "Coursera",
+            "level": "Beginner",
+            "duration": "6 weeks",
+            "link": "https://www.coursera.org/learn/sql-data-science"
+        }
+    ],
+    "machine learning": [
+        {
+            "title": "Machine Learning Specialization",
+            "platform": "Coursera - Andrew Ng",
+            "level": "Intermediate",
+            "duration": "3 months",
+            "link": "https://www.coursera.org/specializations/machine-learning-introduction"
+        },
+        {
+            "title": "Machine Learning Full Course",
+            "platform": "YouTube - freeCodeCamp",
+            "level": "Intermediate",
+            "duration": "10 hours",
+            "link": "https://www.youtube.com/watch?v=NWONeJKn6kc"
+        }
+    ],
+    "deep learning": [
+        {
+            "title": "Deep Learning Specialization",
+            "platform": "Coursera - Andrew Ng",
+            "level": "Advanced",
+            "duration": "4 months",
+            "link": "https://www.coursera.org/specializations/deep-learning"
+        },
+        {
+            "title": "Deep Learning Full Course",
+            "platform": "YouTube - Simplilearn",
+            "level": "Intermediate",
+            "duration": "8 hours",
+            "link": "https://www.youtube.com/watch?v=ErnWZxJovaM"
+        }
+    ],
+    "html": [
+        {
+            "title": "HTML Full Course",
+            "platform": "YouTube - freeCodeCamp",
+            "level": "Beginner",
+            "duration": "2 hours",
+            "link": "https://www.youtube.com/watch?v=pQN-pnXPaVg"
+        },
+        {
+            "title": "Responsive Web Design",
+            "platform": "freeCodeCamp",
+            "level": "Beginner",
+            "duration": "300 hours",
+            "link": "https://www.freecodecamp.org/learn/2022/responsive-web-design"
+        }
+    ],
+    "css": [
+        {
+            "title": "CSS Full Course",
+            "platform": "YouTube - freeCodeCamp",
+            "level": "Beginner",
+            "duration": "6 hours",
+            "link": "https://www.youtube.com/watch?v=1Rs2ND1ryYc"
+        },
+        {
+            "title": "CSS Flexbox and Grid",
+            "platform": "YouTube - Traversy Media",
+            "level": "Beginner",
+            "duration": "2 hours",
+            "link": "https://www.youtube.com/watch?v=3YW65K6LcIA"
+        }
+    ],
+    "docker": [
+        {
+            "title": "Docker Full Course",
+            "platform": "YouTube - freeCodeCamp",
+            "level": "Intermediate",
+            "duration": "5 hours",
+            "link": "https://www.youtube.com/watch?v=fqMOX6JJhGo"
+        }
+    ],
+    "git": [
+        {
+            "title": "Git and GitHub Full Course",
+            "platform": "YouTube - freeCodeCamp",
+            "level": "Beginner",
+            "duration": "3 hours",
+            "link": "https://www.youtube.com/watch?v=RGOj5yH7evk"
+        }
+    ],
+    "aws": [
+        {
+            "title": "AWS Cloud Practitioner",
+            "platform": "Coursera",
+            "level": "Beginner",
+            "duration": "4 weeks",
+            "link": "https://www.coursera.org/learn/aws-cloud-practitioner-essentials"
+        }
+    ],
+    "pandas": [
+        {
+            "title": "Pandas Full Course",
+            "platform": "YouTube - freeCodeCamp",
+            "level": "Beginner",
+            "duration": "4 hours",
+            "link": "https://www.youtube.com/watch?v=vmEHCJofslg"
+        }
+    ],
+    "tensorflow": [
+        {
+            "title": "TensorFlow Full Course",
+            "platform": "YouTube - freeCodeCamp",
+            "level": "Advanced",
+            "duration": "7 hours",
+            "link": "https://www.youtube.com/watch?v=tPYj3fFJGjk"
+        }
+    ],
+    "figma": [
+        {
+            "title": "Figma Full Course",
+            "platform": "YouTube - freeCodeCamp",
+            "level": "Beginner",
+            "duration": "3 hours",
+            "link": "https://www.youtube.com/watch?v=jwCmIBJ8Jtc"
+        }
+    ],
+    "ux design": [
+        {
+            "title": "Google UX Design Certificate",
+            "platform": "Coursera - Google",
+            "level": "Beginner",
+            "duration": "6 months",
+            "link": "https://www.coursera.org/professional-certificates/google-ux-design"
+        }
+    ],
+    "project management": [
+        {
+            "title": "Google Project Management Certificate",
+            "platform": "Coursera - Google",
+            "level": "Beginner",
+            "duration": "6 months",
+            "link": "https://www.coursera.org/professional-certificates/google-project-management"
+        }
+    ]
+}

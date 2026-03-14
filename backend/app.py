@@ -5,6 +5,7 @@ import resume_parser
 import scorer
 import ats
 import skillgap
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -49,6 +50,11 @@ def skill_gap():
     result = skillgap.analyze_skill_gap(data)
     return jsonify(result)
 
+@app.route("/courses", methods=["GET"])
+def get_courses():
+    with open("data/courses.json", "r") as f:
+        courses = json.load(f)
+    return jsonify(courses)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
