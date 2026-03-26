@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Recommendations — ResumeIQ</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="index.html"><span>Resume</span>IQ</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Features</a><ul class="dropdown-menu dropdown-menu-dark-custom"><li><a class="dropdown-item" href="improver.html"><i class="fa-solid fa-wand-magic-sparkles me-2" style="color:var(--warn)"></i>AI Resume Improver<small>Rewrite resume with AI</small></a></li><li><a class="dropdown-item" href="matcher.html"><i class="fa-solid fa-briefcase me-2" style="color:var(--accent2)"></i>Job Role Matcher<small>Find best matching roles</small></a></li><li><a class="dropdown-item" href="chatbot.html"><i class="fa-solid fa-comments me-2" style="color:var(--accent)"></i>Career Chatbot<small>AI career advisor</small></a></li></ul></li>
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Free Tools</a><ul class="dropdown-menu dropdown-menu-dark-custom"><li><a class="dropdown-item" href="ats.html"><i class="fa-solid fa-shield-halved me-2" style="color:var(--primary2)"></i>ATS Resume Checker</a></li><li><a class="dropdown-item" href="skillgap.html"><i class="fa-solid fa-chart-bar me-2" style="color:var(--warn)"></i>Skill Gap Analyzer</a></li><li><a class="dropdown-item" href="courses.html"><i class="fa-solid fa-graduation-cap me-2" style="color:var(--accent)"></i>Course Recommendations</a></li></ul></li>
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Resources</a><ul class="dropdown-menu dropdown-menu-dark-custom"><li><a class="dropdown-item" href="index.html#resume-tips"><i class="fa-solid fa-lightbulb me-2" style="color:var(--warn)"></i>Resume Tips</a></li><li><a class="dropdown-item" href="index.html#interview-questions"><i class="fa-solid fa-circle-question me-2" style="color:var(--accent2)"></i>Interview Questions</a></li></ul></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2"><button class="btn-nav-login" onclick="showLogin()">Login</button><button class="btn-nav-signup" onclick="showSignup()">Sign Up Free</button></div>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container"><div class="page-header-inner">
+    <div class="page-icon fi-teal"><i class="fa-solid fa-graduation-cap"></i></div>
+    <h1>Course Recommendations</h1>
+    <p>Personalized free courses to fill your skill gaps and land your dream job faster</p>
+  </div></div>
+</div>
+
+<div style="background:var(--bg);padding:60px 0;min-height:60vh;">
+  <div class="container">
+
+    <!-- Stats -->
+    <div class="row g-4 mb-5" id="summary-cards">
+      <div class="col-md-4"><div class="stat-card"><div class="stat-num" style="color:var(--accent)" id="matched-count">0</div><div class="stat-lbl">Skills You Have</div></div></div>
+      <div class="col-md-4"><div class="stat-card"><div class="stat-num" style="color:var(--danger)" id="missing-count">0</div><div class="stat-lbl">Skills to Learn</div></div></div>
+      <div class="col-md-4"><div class="stat-card"><div class="stat-num" style="color:var(--primary2)" id="courses-count">0</div><div class="stat-lbl">Courses Found</div></div></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="mb-4">
+      <span style="color:var(--text2);font-size:0.82rem;font-weight:600;margin-right:10px">Filter by Platform:</span>
+      <span class="filter-btn active" onclick="filterCourses('all',this)">All</span>
+      <span class="filter-btn" onclick="filterCourses('YouTube',this)">YouTube</span>
+      <span class="filter-btn" onclick="filterCourses('Coursera',this)">Coursera</span>
+      <span class="filter-btn" onclick="filterCourses('freeCodeCamp',this)">freeCodeCamp</span>
+      <span class="filter-btn" onclick="filterCourses('Udemy',this)">Udemy</span>
+    </div>
+
+    <!-- No gap data warning -->
+    <div id="no-data-warn" class="d-none mb-4" style="background:rgba(255,209,102,0.08);border:1px solid rgba(255,209,102,0.2);border-radius:12px;padding:14px 18px;color:var(--warn);font-size:0.85rem">
+      <i class="fa-solid fa-triangle-exclamation me-2"></i>No skill gap analysis found. Showing all available courses.
+      <a href="skillgap.html" style="color:var(--primary2);margin-left:8px">Run Skill Gap Analysis first →</a>
+    </div>
+
+    <!-- Course Cards -->
+    <div class="row g-4" id="courses-container">
+      <div class="col-12 text-center py-5">
+        <div class="spinner-border" style="color:var(--primary);width:3rem;height:3rem"></div>
+        <p class="mt-3" style="color:var(--text2)">Loading courses...</p>
+      </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="matcher.html" class="btn-primary-custom" style="text-decoration:none">
+        <i class="fa-solid fa-briefcase"></i>Continue to Job Matcher
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer"><div class="container"><div class="row g-4"><div class="col-md-4"><div class="footer-brand"><i class="fa-solid fa-brain" style="color:var(--primary)"></i><span>Resume</span>IQ</div><p class="footer-desc">AI powered resume analysis.</p></div><div class="col-md-2"><p class="footer-h">Features</p><ul class="footer-ul"><li><a href="improver.html">AI Improver</a></li><li><a href="matcher.html">Job Matcher</a></li></ul></div><div class="col-md-2"><p class="footer-h">Free Tools</p><ul class="footer-ul"><li><a href="ats.html">ATS Checker</a></li><li><a href="skillgap.html">Skill Gap</a></li></ul></div></div><hr class="footer-divider"><p class="text-center" style="color:var(--text3);font-size:0.8rem">© 2024 ResumeIQ — SEM Project</p></div></footer>
+
+<div class="floating-chat" onclick="window.location.href='chatbot.html'"><i class="fa-solid fa-comments"></i><span class="chat-tooltip">Career Advisor</span></div>
+<div class="modal fade" id="loginModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Welcome Back</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><div class="mb-3"><label class="auth-label">Email</label><input type="email" class="auth-input" placeholder="you@example.com"></div><div class="mb-3"><label class="auth-label">Password</label><input type="password" class="auth-input" placeholder="••••••••"></div><button class="btn-auth">Login</button></div></div></div></div>
+<div class="modal fade" id="signupModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Create Free Account</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><div class="mb-3"><label class="auth-label">Full Name</label><input type="text" class="auth-input" placeholder="Your Name"></div><div class="mb-3"><label class="auth-label">Email</label><input type="email" class="auth-input" placeholder="you@example.com"></div><div class="mb-3"><label class="auth-label">Password</label><input type="password" class="auth-input" placeholder="••••••••"></div><button class="btn-auth">Create Free Account</button></div></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+window.addEventListener("scroll",()=>{document.getElementById("mainNav").classList.toggle("scrolled",window.scrollY>50);});
+function showLogin(){new bootstrap.Modal(document.getElementById("loginModal")).show();}
+function showSignup(){new bootstrap.Modal(document.getElementById("signupModal")).show();}
+function switchToSignup(){bootstrap.Modal.getInstance(document.getElementById("loginModal")).hide();setTimeout(showSignup,300);}
+function switchToLogin(){bootstrap.Modal.getInstance(document.getElementById("signupModal")).hide();setTimeout(showLogin,300);}
+
+const cpMap={"YouTube":"cp-yt","Coursera":"cp-co","freeCodeCamp":"cp-fcc","Udemy":"cp-ud"};
+const lvlMap={"Beginner":"🟢","Intermediate":"🟡","Advanced":"🔴"};
+let allCourses=[];
+
+async function loadCourses(){
+  try{
+    const res=await fetch("http://127.0.0.1:5000/courses");
+    const data=await res.json();
+    const sgd=JSON.parse(localStorage.getItem("skillGapData"));
+    let skills=[];
+    if(sgd&&sgd.missing_skills&&sgd.missing_skills.length>0){
+      skills=sgd.missing_skills;
+      document.getElementById("matched-count").textContent=sgd.matched_count||0;
+      document.getElementById("missing-count").textContent=sgd.missing_count||0;
+    } else {
+      skills=Object.keys(data);
+      document.getElementById("no-data-warn").classList.remove("d-none");
+    }
+    allCourses=[];
+    skills.forEach(s=>{if(data[s])data[s].forEach(c=>{allCourses.push({...c,skill:s});});});
+    document.getElementById("courses-count").textContent=allCourses.length;
+    renderCourses(allCourses);
+  }catch(e){document.getElementById("courses-container").innerHTML=`<div class="col-12"><div style="background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.2);border-radius:12px;padding:20px;color:var(--danger);text-align:center">Cannot load courses. Make sure Flask is running.</div></div>`;}
+}
+
+function renderCourses(courses){
+  const c=document.getElementById("courses-container");
+  if(!courses.length){c.innerHTML=`<div class="col-12 text-center py-5" style="color:var(--text2)">No courses found for selected filter.</div>`;return;}
+  c.innerHTML="";
+  courses.forEach(course=>{
+    const platKey=Object.keys(cpMap).find(k=>course.platform.includes(k))||"def";
+    const cpClass=cpMap[platKey]||"cp-def";
+    const lvl=lvlMap[course.level]||"⚪";
+    c.innerHTML+=`
+    <div class="col-md-4 course-card-wrap" data-platform="${course.platform}">
+      <div class="course-card">
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="course-platform ${cpClass}">${platKey==="def"?course.platform.split(" - ")[0]:platKey}</span>
+          <span class="course-skill-tag">${course.skill}</span>
+        </div>
+        <h6>${course.title}</h6>
+        <p class="course-meta">${lvl} ${course.level} &nbsp;·&nbsp; <i class="fa-solid fa-clock me-1"></i>${course.duration}</p>
+        <a href="${course.link}" target="_blank" class="btn-course">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>Start Learning Free
+        </a>
+      </div>
+    </div>`;
+  });
+}
+
+function filterCourses(platform,el){
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+  el.classList.add("active");
+  if(platform==="all"){renderCourses(allCourses);return;}
+  renderCourses(allCourses.filter(c=>c.platform.toLowerCase().includes(platform.toLowerCase())));
+}
+
+loadCourses();
+</script>
+</body>
+</html>
