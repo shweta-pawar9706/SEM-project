@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill Gap Analyzer — ResumeIQ</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="index.html"><span>Resume</span>IQ</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Features</a><ul class="dropdown-menu dropdown-menu-dark-custom"><li><a class="dropdown-item" href="improver.html"><i class="fa-solid fa-wand-magic-sparkles me-2" style="color:var(--warn)"></i>AI Resume Improver<small>Rewrite resume with AI</small></a></li><li><a class="dropdown-item" href="matcher.html"><i class="fa-solid fa-briefcase me-2" style="color:var(--accent2)"></i>Job Role Matcher<small>Find best matching roles</small></a></li><li><a class="dropdown-item" href="chatbot.html"><i class="fa-solid fa-comments me-2" style="color:var(--accent)"></i>Career Chatbot<small>AI career advisor</small></a></li></ul></li>
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Free Tools</a><ul class="dropdown-menu dropdown-menu-dark-custom"><li><a class="dropdown-item" href="ats.html"><i class="fa-solid fa-shield-halved me-2" style="color:var(--primary2)"></i>ATS Resume Checker<small>Check ATS compatibility</small></a></li><li><a class="dropdown-item" href="skillgap.html"><i class="fa-solid fa-chart-bar me-2" style="color:var(--warn)"></i>Skill Gap Analyzer<small>Find missing skills</small></a></li><li><a class="dropdown-item" href="courses.html"><i class="fa-solid fa-graduation-cap me-2" style="color:var(--accent)"></i>Course Recommendations<small>Learn missing skills</small></a></li></ul></li>
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Resources</a><ul class="dropdown-menu dropdown-menu-dark-custom"><li><a class="dropdown-item" href="index.html#resume-tips"><i class="fa-solid fa-lightbulb me-2" style="color:var(--warn)"></i>Resume Tips</a></li><li><a class="dropdown-item" href="index.html#interview-questions"><i class="fa-solid fa-circle-question me-2" style="color:var(--accent2)"></i>Interview Questions</a></li></ul></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2"><button class="btn-nav-login" onclick="showLogin()">Login</button><button class="btn-nav-signup" onclick="showSignup()">Sign Up Free</button></div>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container"><div class="page-header-inner">
+    <div class="page-icon fi-yellow"><i class="fa-solid fa-chart-bar"></i></div>
+    <h1>Skill Gap Analyzer</h1>
+    <p>See exactly which skills you have and which ones you need to learn for your target job</p>
+  </div></div>
+</div>
+
+<div style="background:var(--bg);padding:60px 0;min-height:60vh;">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="glass-card">
+          <p class="card-title-sm mb-4"><i class="fa-solid fa-paste me-2" style="color:var(--primary2)"></i>Paste Job Description</p>
+          <textarea class="dark-textarea" id="jd-input" rows="9" placeholder="Paste the job description here to analyze which skills you have and which you're missing..."></textarea>
+          <div class="mt-3"><span style="color:var(--text2);font-size:0.78rem;font-weight:500;margin-right:8px">Quick load:</span>
+            <span class="sample-pill" onclick="loadSample('webdev')">Web Developer</span>
+            <span class="sample-pill" onclick="loadSample('data')">Data Scientist</span>
+            <span class="sample-pill" onclick="loadSample('fullstack')">Full Stack</span>
+          </div>
+          <button class="btn-primary-custom w-100 mt-4" style="justify-content:center;padding:14px" onclick="analyzeGap()">
+            <i class="fa-solid fa-chart-bar"></i>Analyze Skill Gap
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="glass-card h-100">
+          <p class="card-title-sm mb-4"><i class="fa-solid fa-code me-2" style="color:var(--accent)"></i>Your Current Skills</p>
+          <div id="current-skills"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="loading" class="text-center my-5 d-none">
+      <div class="spinner-border" style="color:var(--primary);width:3rem;height:3rem"></div>
+      <p class="mt-3" style="color:var(--text2)">Analyzing skill gap...</p>
+    </div>
+
+    <div id="results-section" class="d-none mt-5">
+      <!-- Match score + donut -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-4">
+          <div class="score-card text-center">
+            <p style="color:var(--text2);font-size:0.85rem;font-weight:600;margin-bottom:20px">Skill Match</p>
+            <div class="ats-score-ring" id="match-ring" style="--pct:0">
+              <div class="ats-score-inner">
+                <div class="ats-score-num" id="match-pct">0</div>
+                <div class="ats-score-label">% Match</div>
+              </div>
+            </div>
+            <p id="match-summary" style="color:var(--text2);font-size:0.82rem;margin-top:10px"></p>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="breakdown-card h-100">
+            <p class="card-title-sm mb-4"><i class="fa-solid fa-chart-pie me-2" style="color:var(--warn)"></i>Skills Overview</p>
+            <div class="row g-3 text-center mb-4">
+              <div class="col-4">
+                <div style="font-family:'Sora',sans-serif;font-size:2rem;font-weight:800;color:var(--accent)" id="total-skills">0</div>
+                <div style="color:var(--text2);font-size:0.78rem">Required</div>
+              </div>
+              <div class="col-4">
+                <div style="font-family:'Sora',sans-serif;font-size:2rem;font-weight:800;color:var(--primary2)" id="matched-count-n">0</div>
+                <div style="color:var(--text2);font-size:0.78rem">You Have</div>
+              </div>
+              <div class="col-4">
+                <div style="font-family:'Sora',sans-serif;font-size:2rem;font-weight:800;color:var(--danger)" id="missing-count-n">0</div>
+                <div style="color:var(--text2);font-size:0.78rem">Missing</div>
+              </div>
+            </div>
+            <div id="gap-bars"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Matched / Missing -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="glass-card h-100">
+            <p class="card-title-sm mb-3"><i class="fa-solid fa-circle-check me-2" style="color:var(--accent)"></i>Skills You Have</p>
+            <div id="matched-skills"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="glass-card h-100">
+            <p class="card-title-sm mb-3"><i class="fa-solid fa-circle-xmark me-2" style="color:var(--danger)"></i>Skills You Need</p>
+            <div id="missing-skills"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="glass-card">
+        <p class="card-title-sm mb-3"><i class="fa-solid fa-lightbulb me-2" style="color:var(--warn)"></i>Recommendations</p>
+        <div id="recommendations"></div>
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="courses.html" class="btn-primary-custom" style="text-decoration:none">
+          <i class="fa-solid fa-graduation-cap"></i>View Course Recommendations
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer"><div class="container"><div class="row g-4"><div class="col-md-4"><div class="footer-brand"><i class="fa-solid fa-brain" style="color:var(--primary)"></i><span>Resume</span>IQ</div><p class="footer-desc">AI powered resume analysis.</p></div><div class="col-md-2"><p class="footer-h">Features</p><ul class="footer-ul"><li><a href="improver.html">AI Improver</a></li><li><a href="matcher.html">Job Matcher</a></li></ul></div><div class="col-md-2"><p class="footer-h">Free Tools</p><ul class="footer-ul"><li><a href="ats.html">ATS Checker</a></li><li><a href="courses.html">Courses</a></li></ul></div></div><hr class="footer-divider"><p class="text-center" style="color:var(--text3);font-size:0.8rem">© 2024 ResumeIQ — SEM Project</p></div></footer>
+
+<div class="floating-chat" onclick="window.location.href='chatbot.html'"><i class="fa-solid fa-comments"></i><span class="chat-tooltip">Career Advisor</span></div>
+<div class="modal fade" id="loginModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Welcome Back</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><div class="mb-3"><label class="auth-label">Email</label><input type="email" class="auth-input" placeholder="you@example.com"></div><div class="mb-3"><label class="auth-label">Password</label><input type="password" class="auth-input" placeholder="••••••••"></div><button class="btn-auth">Login</button></div></div></div></div>
+<div class="modal fade" id="signupModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Create Free Account</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><div class="mb-3"><label class="auth-label">Full Name</label><input type="text" class="auth-input" placeholder="Your Name"></div><div class="mb-3"><label class="auth-label">Email</label><input type="email" class="auth-input" placeholder="you@example.com"></div><div class="mb-3"><label class="auth-label">Password</label><input type="password" class="auth-input" placeholder="••••••••"></div><button class="btn-auth">Create Free Account</button></div></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+window.addEventListener("scroll",()=>{document.getElementById("mainNav").classList.toggle("scrolled",window.scrollY>50);});
+function showLogin(){new bootstrap.Modal(document.getElementById("loginModal")).show();}
+function showSignup(){new bootstrap.Modal(document.getElementById("signupModal")).show();}
+function switchToSignup(){bootstrap.Modal.getInstance(document.getElementById("loginModal")).hide();setTimeout(showSignup,300);}
+function switchToLogin(){bootstrap.Modal.getInstance(document.getElementById("signupModal")).hide();setTimeout(showLogin,300);}
+
+const samples={webdev:"We are looking for a Web Developer with experience in HTML, CSS, JavaScript and React. The candidate should have experience with Node.js, Express and MongoDB. Knowledge of Git, responsive design and REST APIs is required. Good communication and teamwork skills are essential.",data:"We are hiring a Data Scientist with strong skills in Python, pandas, numpy and scikit-learn. Experience with machine learning, deep learning and data analysis is required. SQL and matplotlib required.",fullstack:"Looking for a Full Stack Developer proficient in React, Node.js and MongoDB. Must have experience with HTML, CSS, JavaScript and REST APIs. Knowledge of Git, Docker and AWS preferred."};
+function loadSample(t){document.getElementById("jd-input").value=samples[t];}
+
+const resumeData=JSON.parse(localStorage.getItem("resumeData"));
+const csDiv=document.getElementById("current-skills");
+if(resumeData&&resumeData.skills&&resumeData.skills.length>0){resumeData.skills.forEach(s=>{csDiv.innerHTML+=`<span class="kw-skill">${s}</span>`;});}
+else{csDiv.innerHTML=`<p style="color:var(--danger);font-size:0.85rem">No resume found. <a href="index.html" style="color:var(--primary2)">Upload resume first</a></p>`;}
+
+async function analyzeGap(){
+  const jd=document.getElementById("jd-input").value.trim();
+  if(!jd){alert("Please paste a job description first.");return;}
+  if(!resumeData||resumeData.error){alert("No resume found.");window.location.href="index.html";return;}
+  document.getElementById("loading").classList.remove("d-none");
+  document.getElementById("results-section").classList.add("d-none");
+  try{
+    const res=await fetch("http://127.0.0.1:5000/skillgap",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({resume_skills:resumeData.skills||[],job_description:jd})});
+    const r=await res.json();
+    localStorage.setItem("skillGapData",JSON.stringify(r));
+    localStorage.setItem("jdText",jd);
+    showResults(r);
+  }catch(e){alert("Cannot connect to server.");}
+  finally{document.getElementById("loading").classList.add("d-none");}
+}
+
+function showResults(r){
+  document.getElementById("results-section").classList.remove("d-none");
+  document.getElementById("results-section").scrollIntoView({behavior:"smooth"});
+  document.getElementById("match-pct").textContent=r.match_percent;
+  setTimeout(()=>{document.getElementById("match-ring").style.setProperty("--pct",r.match_percent);},300);
+  document.getElementById("match-summary").textContent=r.matched_count+" of "+r.total_skills+" required skills matched";
+  document.getElementById("total-skills").textContent=r.total_skills;
+  document.getElementById("matched-count-n").textContent=r.matched_count;
+  document.getElementById("missing-count-n").textContent=r.missing_count;
+
+  const gb=document.getElementById("gap-bars");gb.innerHTML="";
+  const items=[{label:"Skills You Have",val:r.matched_count,max:r.total_skills,color:"var(--accent)"},{label:"Skills You Need",val:r.missing_count,max:r.total_skills,color:"var(--danger)"}];
+  items.forEach(i=>{const pct=Math.round((i.val/Math.max(i.max,1))*100);gb.innerHTML+=`<div class="breakdown-item"><div class="breakdown-label"><span>${i.label}</span><span>${i.val}</span></div><div class="prog-track"><div class="prog-fill" style="width:0%;background:${i.color}" data-w="${pct}%"></div></div></div>`;});
+  setTimeout(()=>{document.querySelectorAll(".prog-fill").forEach(el=>el.style.width=el.dataset.w);},400);
+
+  const ms=document.getElementById("matched-skills");ms.innerHTML="";
+  r.matched_skills.forEach(s=>{ms.innerHTML+=`<span class="kw-match">${s}</span>`;});
+  if(!r.matched_skills.length)ms.innerHTML=`<p style="color:var(--text2);font-size:0.85rem">No matching skills found</p>`;
+
+  const mi=document.getElementById("missing-skills");mi.innerHTML="";
+  r.missing_skills.forEach(s=>{mi.innerHTML+=`<span class="kw-miss">${s}</span>`;});
+  if(!r.missing_skills.length)mi.innerHTML=`<p style="color:var(--accent);font-size:0.85rem">You have all required skills!</p>`;
+
+  const rec=document.getElementById("recommendations");rec.innerHTML="";
+  r.recommendations.forEach(t=>{rec.innerHTML+=`<div class="tip-row"><i class="fa-solid fa-circle-check" style="color:var(--accent)"></i>${t}</div>`;});
+}
+</script>
+</body>
+</html>
