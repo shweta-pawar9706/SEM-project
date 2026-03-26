@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Resume Improver — ResumeIQ</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="index.html"><span>Resume</span>IQ</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Features</a><ul class="dropdown-menu dropdown-menu-dark-custom"><li><a class="dropdown-item" href="improver.html"><i class="fa-solid fa-wand-magic-sparkles me-2" style="color:var(--warn)"></i>AI Resume Improver<small>Rewrite resume with AI</small></a></li><li><a class="dropdown-item" href="matcher.html"><i class="fa-solid fa-briefcase me-2" style="color:var(--accent2)"></i>Job Role Matcher<small>Find best matching roles</small></a></li><li><a class="dropdown-item" href="chatbot.html"><i class="fa-solid fa-comments me-2" style="color:var(--accent)"></i>Career Chatbot<small>AI career advisor</small></a></li></ul></li>
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Free Tools</a><ul class="dropdown-menu dropdown-menu-dark-custom"><li><a class="dropdown-item" href="ats.html"><i class="fa-solid fa-shield-halved me-2" style="color:var(--primary2)"></i>ATS Resume Checker</a></li><li><a class="dropdown-item" href="skillgap.html"><i class="fa-solid fa-chart-bar me-2" style="color:var(--warn)"></i>Skill Gap Analyzer</a></li><li><a class="dropdown-item" href="courses.html"><i class="fa-solid fa-graduation-cap me-2" style="color:var(--accent)"></i>Course Recommendations</a></li></ul></li>
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Resources</a><ul class="dropdown-menu dropdown-menu-dark-custom"><li><a class="dropdown-item" href="index.html#resume-tips"><i class="fa-solid fa-lightbulb me-2" style="color:var(--warn)"></i>Resume Tips</a></li><li><a class="dropdown-item" href="index.html#interview-questions"><i class="fa-solid fa-circle-question me-2" style="color:var(--accent2)"></i>Interview Questions</a></li></ul></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2"><button class="btn-nav-login" onclick="showLogin()">Login</button><button class="btn-nav-signup" onclick="showSignup()">Sign Up Free</button></div>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container"><div class="page-header-inner">
+    <div class="page-icon fi-yellow"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+    <h1>AI Resume Improver</h1>
+    <p>AI rewrites your resume bullet points and sections to sound more professional and ATS-friendly</p>
+  </div></div>
+</div>
+
+<div style="background:var(--bg);padding:60px 0;min-height:60vh;">
+  <div class="container">
+
+    <!-- Tabs -->
+    <ul class="nav dark-tabs mb-0" id="modeTabs">
+      <li class="nav-item"><button class="nav-link active" id="tab-full" onclick="switchMode('full')"><i class="fa-solid fa-file-lines me-2"></i>Full Section</button></li>
+      <li class="nav-item"><button class="nav-link" id="tab-bullet" onclick="switchMode('bullet')"><i class="fa-solid fa-list me-2"></i>Single Bullet Point</button></li>
+    </ul>
+
+    <div class="row g-4 mt-0">
+      <!-- Input -->
+      <div class="col-md-6">
+        <div class="improver-box">
+          <p class="card-title-sm mb-3"><i class="fa-solid fa-pen me-2" style="color:var(--danger)"></i>Original Text</p>
+          <textarea class="dark-textarea" id="original-text" rows="10" placeholder="Paste your resume section or bullet point here..."></textarea>
+          <textarea class="dark-textarea mt-3" id="jd-context" rows="3" placeholder="Optional: Paste job description for targeted improvement..."></textarea>
+          <button class="btn-primary-custom w-100 mt-4" style="justify-content:center;padding:14px" onclick="improveText()" id="improve-btn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>Improve with AI
+          </button>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="col-md-6">
+        <div class="improver-box">
+          <p class="card-title-sm mb-3"><i class="fa-solid fa-star me-2" style="color:var(--accent)"></i>AI Improved Version</p>
+
+          <div id="improve-loading" class="text-center py-4 d-none">
+            <div class="spinner-border" style="color:var(--primary)"></div>
+            <p class="mt-2" style="color:var(--text2);font-size:0.85rem">AI is improving your resume...</p>
+          </div>
+
+          <div id="empty-state" class="text-center py-5">
+            <i class="fa-solid fa-wand-magic-sparkles fa-2x mb-3" style="color:rgba(124,111,247,0.3)"></i>
+            <p style="color:var(--text3);font-size:0.85rem">Your improved text will appear here</p>
+          </div>
+
+          <div id="improved-result" class="d-none">
+            <div class="improved-output" id="improved-text"></div>
+            <div class="d-flex gap-2 mt-3">
+              <button class="btn-primary-custom flex-grow-1" style="justify-content:center" onclick="copyText()"><i class="fa-solid fa-copy"></i>Copy Text</button>
+              <button class="btn-secondary-custom" onclick="resetImprover()" title="Reset"><i class="fa-solid fa-rotate-left"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Examples -->
+    <div class="glass-card mt-4">
+      <p class="card-title-sm mb-4"><i class="fa-solid fa-lightbulb me-2" style="color:var(--warn)"></i>Try These Examples</p>
+      <div class="row g-3">
+        <div class="col-md-4"><div class="example-tile" onclick="loadEx('exp')"><strong>Experience Bullet</strong><p class="mt-1">"Worked on website development using HTML and CSS for a client project"</p></div></div>
+        <div class="col-md-4"><div class="example-tile" onclick="loadEx('summary')"><strong>Profile Summary</strong><p class="mt-1">"I am a computer science student looking for a job in software development"</p></div></div>
+        <div class="col-md-4"><div class="example-tile" onclick="loadEx('project')"><strong>Project Description</strong><p class="mt-1">"Made a fitness app using React Native that helps users track their health"</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer"><div class="container"><div class="row g-4"><div class="col-md-4"><div class="footer-brand"><i class="fa-solid fa-brain" style="color:var(--primary)"></i><span>Resume</span>IQ</div><p class="footer-desc">AI powered resume analysis.</p></div><div class="col-md-2"><p class="footer-h">Features</p><ul class="footer-ul"><li><a href="matcher.html">Job Matcher</a></li><li><a href="chatbot.html">Chatbot</a></li></ul></div><div class="col-md-2"><p class="footer-h">Free Tools</p><ul class="footer-ul"><li><a href="ats.html">ATS Checker</a></li><li><a href="skillgap.html">Skill Gap</a></li></ul></div></div><hr class="footer-divider"><p class="text-center" style="color:var(--text3);font-size:0.8rem">© 2024 ResumeIQ — SEM Project</p></div></footer>
+
+<div class="floating-chat" onclick="window.location.href='chatbot.html'"><i class="fa-solid fa-comments"></i><span class="chat-tooltip">Career Advisor</span></div>
+<div class="modal fade" id="loginModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Welcome Back</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><div class="mb-3"><label class="auth-label">Email</label><input type="email" class="auth-input" placeholder="you@example.com"></div><div class="mb-3"><label class="auth-label">Password</label><input type="password" class="auth-input" placeholder="••••••••"></div><button class="btn-auth">Login</button></div></div></div></div>
+<div class="modal fade" id="signupModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Create Free Account</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><div class="mb-3"><label class="auth-label">Full Name</label><input type="text" class="auth-input" placeholder="Your Name"></div><div class="mb-3"><label class="auth-label">Email</label><input type="email" class="auth-input" placeholder="you@example.com"></div><div class="mb-3"><label class="auth-label">Password</label><input type="password" class="auth-input" placeholder="••••••••"></div><button class="btn-auth">Create Free Account</button></div></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+window.addEventListener("scroll",()=>{document.getElementById("mainNav").classList.toggle("scrolled",window.scrollY>50);});
+function showLogin(){new bootstrap.Modal(document.getElementById("loginModal")).show();}
+function showSignup(){new bootstrap.Modal(document.getElementById("signupModal")).show();}
+function switchToSignup(){bootstrap.Modal.getInstance(document.getElementById("loginModal")).hide();setTimeout(showSignup,300);}
+function switchToLogin(){bootstrap.Modal.getInstance(document.getElementById("signupModal")).hide();setTimeout(showLogin,300);}
+
+let mode="full";
+const exs={exp:"Worked on website development using HTML and CSS for a client project",summary:"I am a computer science student looking for a job in software development",project:"Made a fitness app using React Native that helps users track their health"};
+
+function switchMode(m){
+  mode=m;
+  document.getElementById("tab-full").classList.toggle("active",m==="full");
+  document.getElementById("tab-bullet").classList.toggle("active",m==="bullet");
+  document.getElementById("original-text").placeholder=m==="full"?"Paste your resume section here...":"Paste a single bullet point here...";
+}
+
+function loadEx(t){document.getElementById("original-text").value=exs[t];}
+
+async function improveText(){
+  const text=document.getElementById("original-text").value.trim();
+  const jd=document.getElementById("jd-context").value.trim();
+  if(!text){alert("Please paste some text to improve.");return;}
+  document.getElementById("improve-loading").classList.remove("d-none");
+  document.getElementById("empty-state").classList.add("d-none");
+  document.getElementById("improved-result").classList.add("d-none");
+  document.getElementById("improve-btn").disabled=true;
+  try{
+    const ep=mode==="bullet"?"/improve-bullet":"/improve";
+    const res=await fetch("http://127.0.0.1:5000"+ep,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,bullet:text,job_description:jd})});
+    const r=await res.json();
+    const improved=r.improved_text||r.improved_bullet;
+    document.getElementById("improved-text").textContent=improved;
+    document.getElementById("improved-result").classList.remove("d-none");
+  }catch(e){alert("Cannot connect to server. Make sure Flask is running.");}
+  finally{document.getElementById("improve-loading").classList.add("d-none");document.getElementById("improve-btn").disabled=false;}
+}
+
+function copyText(){
+  navigator.clipboard.writeText(document.getElementById("improved-text").textContent).then(()=>{
+    const btn=event.target.closest("button");
+    btn.innerHTML='<i class="fa-solid fa-check"></i>Copied!';
+    setTimeout(()=>{btn.innerHTML='<i class="fa-solid fa-copy"></i>Copy Text';},2000);
+  });
+}
+
+function resetImprover(){
+  document.getElementById("original-text").value="";
+  document.getElementById("improved-result").classList.add("d-none");
+  document.getElementById("empty-state").classList.remove("d-none");
+}
+</script>
+</body>
+</html>
